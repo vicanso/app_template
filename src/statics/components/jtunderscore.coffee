@@ -1,0 +1,2 @@
+define 'underscore', ->
+  window._

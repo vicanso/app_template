@@ -1,0 +1,2 @@
+define 'backbone', ->
+  window.Backbone

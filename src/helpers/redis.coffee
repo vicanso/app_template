@@ -1,4 +1,5 @@
 jtRedis = require 'jtredis'
+logger = require('./logger') 'redis'
 
 ###*
  * init 初始化redis
@@ -9,9 +10,9 @@ init = (setting) ->
   jtRedis.configure 'redis', setting
   client = jtRedis.getClient setting.name
   client.on 'error', (err) ->
-    console.dir err if err
+    logger.error err if err
   client.on 'profiling', (data) ->
-    console.dir data
+    logger.info data
 ###*
  * getClient 获取redis client
  * @param  {[type]} name 初始化时的client名字

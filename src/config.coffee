@@ -13,3 +13,6 @@ module.exports.getRedisConfig = ->
     uri : 'redis://localhost:10010'
     pwd : 'MY_REDIS_JENNY_TREE'
   }
+
+module.exports.getStaticHost = ->
+  'localhost'

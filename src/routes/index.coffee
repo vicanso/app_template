@@ -5,7 +5,6 @@ fileImporter = require '../helpers/file_importer'
 # sync = require '../helpers/sync'
 requireTree = require 'require-tree'
 controllers = requireTree '../controllers'
-isProductionMode = process.env.NODE_ENV == 'production'
 
 
 sessionParser = require('../helpers/session') {
@@ -27,7 +26,6 @@ routeInfos = [
   }
   {
     route : '/deploy'
-    type : 'post'
     handler : controllers.deploy
   }
   {

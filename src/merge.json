@@ -13,15 +13,14 @@
       "/components/jtbackbone.js"
     ],
     [
-      "/components/jtlazy_load.js",
-      "/components/jtphoto_wall.js"
+      "/javascripts/jtlazy_load.js",
+      "/javascripts/jtphoto_wall.js"
     ],
     [
       "/components/normalize.css",
       "/stylesheets/global.css",
       "/stylesheets/ui.css",
       "/stylesheets/icon.css",
-      "/stylesheets/header.css",
       "/stylesheets/footer.css"
     ]
   ]

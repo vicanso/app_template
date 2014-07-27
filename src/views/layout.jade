@@ -9,6 +9,9 @@ html(lang='zh-CN')
     meta(name='keywords', content='')
     meta(name='description', content='')
     meta(name='author',content='小墨鱼 vicanso 腻味 tree')
+    link(ref='shortcut icon', href='#{staticUrlPrefix}/static/images/favicon.png', type='image/png')
+    link(ref='icon', href='#{staticUrlPrefix}/static/images/favicon.png', type='image/png')
+
     title= title
     include inlinejs
     //CSS_FILES_CONTAINER
@@ -18,7 +21,7 @@ html(lang='zh-CN')
         "env" : "#{ENV}",
         "template" : "#{template}"
       };
-    - fileImporter.importCss(['/components/normalize.css', '/stylesheets/global.css', '/stylesheets/ui.css', '/stylesheets/icon.css']);
+    - fileImporter.importCss(['/components/normalize.css', '/stylesheets/global.css', '/stylesheets/ui.css', '/stylesheets/icon.css', '/stylesheets/m/css.css']);
     - fileImporter.importJs(['/components/jquery.js', '/components/underscore.js', '/components/backbone.js', '/components/sea.js', '/components/config.js']);
     if ENV === 'development'
       - fileImporter.importJs('/components/sea_dev.js');

@@ -40,11 +40,6 @@ module.exports = (grunt) ->
       dest : [destPath]
       build : [buildPath]
     gitclone : getGitCloneConfig ['jtfileimporter', 'jtmongoose', 'jtmerge', 'jtredis', 'jtrouter', 'jtdev', 'jtcluster']
-    concat : 
-      # 根据页面所需要的静态文件合并数据
-      merge : 
-        files : []
-        # getConcatFiles()
     coffee : 
       # node.js的coffee直接编译到目标目录
       node : 
@@ -63,6 +58,7 @@ module.exports = (grunt) ->
     jshint :
       options : 
         force : true
+        jshintrc : true
       node :
         expand : true
         cwd : destPath
@@ -208,6 +204,13 @@ module.exports = (grunt) ->
           }
           
         ]
+      embed_ie : 
+        files : [
+          {
+            src : ['encode_ie.js']
+            dest : 'node_modules/grunt-image-embed/tasks/lib/encode.js'
+          }
+        ]
     # 计算静态文件的crc32
     crc32 : 
       strict :
@@ -219,8 +222,6 @@ module.exports = (grunt) ->
           }
         ]
 
-  if grunt.cli.tasks[0] != 'init'
-    gruntConfig.concat.merge.files = getConcatFiles()
   grunt.initConfig gruntConfig
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -244,6 +245,16 @@ module.exports = (grunt) ->
       crc32Infos[destFile] = crc32.unsigned buf
     fs.writeFileSync path.join(destPath, 'crc32.json'), JSON.stringify( crc32Infos, null, 2)
 
+  # 合并静态文件文件
+  grunt.registerTask 'merge_static', ->
+    Merge = require 'jtmerge'
+    grunt.file.mkdir path.join staticsDestPath, 'merge'
+    components = require path.join __dirname, 'src/components.json'
+    mergeInfo = require path.join __dirname, 'src/merge.json'
+    merge = new Merge mergeInfo
+    result = merge.getMergeList components, staticsDestPath
+    _.each result, (files, saveFile) ->
+      merge.merge __dirname, saveFile, files
 
   grunt.registerTask 'seaConfig', ->
     crc32Buf = fs.readFileSync path.join destPath, 'crc32.json'
@@ -256,12 +267,14 @@ module.exports = (grunt) ->
     fs.writeFileSync configFile, str
 
 
-  grunt.registerTask 'test', ['jshint']
+  grunt.registerTask 'test', ['merge_static']
 
   grunt.registerTask 'git', ['gitclone']
 
+  grunt.registerTask 'ie', ['copy:embed_ie']
+
   grunt.registerTask 'init', ['clean:grunt', 'copy:bower', 'gitclone']
 
-  grunt.registerTask 'gen', ['clean:dest', 'coffee', 'jshint', 'uglify', 'copy:build', 'stylus', 'imageEmbed', 'cssmin', 'concat:merge', 'crc32', 'copy:js', 'seaConfig', 'clean:build']
+  grunt.registerTask 'gen', ['clean:dest', 'coffee', 'jshint', 'uglify', 'copy:build', 'stylus', 'cssmin', 'crc32', 'seaConfig', 'merge_static', 'imageEmbed', 'crc32', 'copy:js', 'clean:build']
 
   grunt.registerTask 'default', ['gen']

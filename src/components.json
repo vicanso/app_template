@@ -6,10 +6,7 @@
       "/components/backbone.js",
       "/components/sea.js",
       "/components/config.js",
-      "/components/jtjquery.js",
-      "/components/jtunderscore.js",
-      "/components/jtbackbone.js",
-      "/components/statistics.js",
+      "/components/sea_dev.js",
       "/javascripts/index.js"
     ],
     "cssList": [
@@ -17,9 +14,9 @@
       "/stylesheets/global.css",
       "/stylesheets/ui.css",
       "/stylesheets/icon.css",
+      "/stylesheets/m/css.css",
       "/stylesheets/index.css",
       "/stylesheets/footer.css"
-    ],
-    "modifiedAt": "2014-02-25 22:42:39"
+    ]
   }
 }

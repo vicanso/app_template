@@ -1,7 +1,7 @@
 JTMongoose = require 'jtmongoose'
 client = null
 path = require 'path'
-logger = require('./logger') __filename
+logger = require('./logger') 'mongodb'
 # statistics = require './statistics'
 
 ###*

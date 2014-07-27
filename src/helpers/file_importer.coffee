@@ -3,8 +3,8 @@ fs = require 'fs'
 _ = require 'underscore'
 moment = require 'moment'
 FileImporter = require 'jtfileimporter'
+config = require '../config'
 
-isProductionMode = process.env.NODE_ENV == 'production'
 
 # 用于记录每个template使用到哪些静态文件，方便在production下使用合并文件
 componentsFile = path.join __dirname, '../components.json'
@@ -50,15 +50,15 @@ importer = (req, res, next) ->
   options =     
     urlPrefix : '/static'
     path : path.join __dirname, '../statics'
-  options.merge =  mergeInfo if isProductionMode
+  options.merge =  mergeInfo if config.getENV() != 'development'
   options.crc32List = crc32List
   options.debug = true if req.query?.__debug == 'true'
-  if isProductionMode
-    options.hosts = ['svxs.vicanso.com']
+  if config.getENV() != 'development'
+    options.hosts = [config.getStaticHost()]
 
   fileImporter = new FileImporter options
 
-  if !isProductionMode
+  if config.getENV() == 'development'
     # 记录通过fileImporter引入的静态文件
     fileImporter.on 'export', (template, infos) ->
       exportTemplateInfos[template] = infos

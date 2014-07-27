@@ -31,7 +31,7 @@ initAppSetting = (app) ->
 
 getStaticUrlPrefix = ->
   if config.getENV() == 'production'
-    "http://svxs.vicanso.com"
+    "http://#{config.getStaticHost()}"
   else
     ''
 
@@ -78,7 +78,8 @@ initServer = ->
   # 静态文件处理
   hour = 3600
   staticMaxAge = 30 * 24 * hour
-  staticHanlder = express.static staticPath
+  staticMiddlewareName = 'static'
+  staticHanlder = express[staticMiddlewareName] staticPath
   app.use staticMount, (req, res, next) ->
     res.header 'Cache-Control', "public, max-age=#{staticMaxAge}, s-maxage=#{hour}"
     staticHanlder req, res, next
